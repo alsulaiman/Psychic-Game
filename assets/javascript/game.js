@@ -63,6 +63,7 @@ document.onkeyup = function(event) {
 
 				// to showes the resulte of wining 
 				document.getElementById("win").innerHTML = couWin;
+				restart();
 
 			}
 		}
@@ -71,15 +72,20 @@ document.onkeyup = function(event) {
 	} else {
 
 		// popup a message tell users to refresh page
-		alert("you lost, Please click on refresh the page to replaying again");
+
+		alert("you lost");
 		
 		// to count how many time user lost
 		couLos+=1;
 
 		// to showes the result on lossing
 		document.getElementById("loss").innerHTML = couLos;
+		restart();
 	}
-
+function restart() {
+	counter = 10;
+	userArray = [];
+}
 	
 }
 
