@@ -1,95 +1,85 @@
-// to set a counter
+/* ========== 
+set a variables to counter, count wins, count loss, user wrong guess, alphabet, random letter, 
+ ========== */
+
 var counter = 10;
-
-// to count how many time user wins.
 var couWin=0;
-
-// to count how many time user losses.
 var couLos=0;
-
-// Creating the Answer Array,which stores the letters that have been properly guessed:
 var userArray = [];
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']; 
 
-// Alphabet Letters
-var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']; 
 
 // Random Guesses
-var randomGuess = alphabet[Math.floor(Math.random() * alphabet.length)];
+randomalph = alphabet[Math.floor(Math.random() * alphabet.length)];
+console.log(randomalph);
 
-// Listening for key up
+/* ========== 
+when the user press on the keyboard do this:
+* get the letter when the user press the keyboard
+* change the letter from the upper letter to lower letter
+* check if the user press any key other than alohabet letter don't listen to him 
+ ========== */
 document.onkeyup = function(event) {
-
-	// to git key value (Object of event) 
-	var userGuess = event.key
-
-	// to make a condition if counter = 0 stop receiving key entrance 
-	if (counter !== 1) {
-
-		// to ensure in that user doesn't use the same litter twice
-		if (userArray.includes(userGuess)){
-
-			// to popup a window message to the user telling him he was already chose the letter
-			alert('Youve used this letter, please select another letter')
-
-			// if the user doesn't insert same letter do this things 
-		} else {
-
-			// comparing each of user guess and random letter
-			if (userGuess !== randomGuess) {
-
-				// to alert a messeg that is telling user he guess rong letter
-				alert('wrong')
-
-				// to stor user guess 
-				userArray.push(userGuess)
-
-				// to count how many guess litter will left
-				counter--
-
-				// to tell user how many chanse he has to fugerout the right answer
-				document.getElementById("guessLeft").innerHTML=counter;
-
-				// to shows user what does letter he click on
-				document.getElementById("guessSoFar").innerHTML= (userArray + ", ");
-
-				// to show that the user is chose the right answer
-			} else {
-
-				// to popup a window message telling user he just win
-				alert('correct!')
-
-				// to add a mount of winning 
-				couWin += 1;
-
-				// to showes the resulte of wining 
-				document.getElementById("win").innerHTML = couWin;
-				restart();
-
-			}
-		}
-
-		// to tell the user to refresh the page 
+	var lowerCase = event.key;
+	var userGuess = lowerCase.toLowerCase(lowerCase);
+	var validation = alphabet.includes(userGuess);
+	if (validation !== true){
+		alert('Please enter a letter');
 	} else {
 
-		// popup a message tell users to refresh page
+/* ========== 
+* if counter greater than 0 keep listen to them else exit the game
+* if user chose the same litter twice alert you alredy chose the letter
+* if the user enter the same random letter count 1 and restart the game
+* if the user enter th wrong letter count 10 chance to get the right letter then count 1 loss
+ ========== */
+		if (counter !== 1) {
+			if (userArray.includes(userGuess)){
+				alert('You\'ve used this letter, please select another letter')
+			} else {
+				if (userGuess !== randomalph) {
+					wrong();
+				} else {
+					win();
+				}
+			}
+		} else {
+			los();
+		}
+	}
 
-		alert("you lost");
-		
-		// to count how many time user lost
-		couLos+=1;
+	/* to restart the game */ 
+	function restart() {
+		counter = 10;
+		userArray = [];
+		document.getElementById("guessSoFar").innerHTML= (userArray);
+		randomalph = alphabet[Math.floor(Math.random() * alphabet.length)];
+		console.log(randomalph);
+	}
 
-		// to showes the result on lossing
-		document.getElementById("loss").innerHTML = couLos;
+	/* if user win */ 
+	function win() {
+		couWin += 1;
+		alert("You're right");
+		document.getElementById("win").innerHTML = couWin;
 		restart();
 	}
-function restart() {
-	counter = 10;
-	userArray = [];
+
+	/* if user loss */ 
+	function los() {
+		couLos += 1;
+		alert("Sorry, you lost");
+		document.getElementById("loss").innerHTML = couLos;
+		document.getElementById("guessLeft").innerHTML=null;
+		restart();
+	}
+
+	/* if user git wrong letter */ 
+	function wrong() {
+		// alert('try agane')
+		userArray.push(userGuess)
+		counter--
+		document.getElementById("guessLeft").innerHTML=counter;
+		document.getElementById("guessSoFar").innerHTML= (userArray + ",");
+	}	
 }
-	
-}
-
-
-
-
-
